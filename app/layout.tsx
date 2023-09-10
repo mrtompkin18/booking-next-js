@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { getServerSession } from 'next-auth'
 import { Inter } from 'next/font/google'
 import NavBar from '@/app/components/common/NavBar'
-import SessionProvider from '@/app/components/provider/SessionProvider'
+import AuthProvider from '@/app/contexts/AuthProvider'
 import { UserLocationProvider } from '@/app/contexts/UserLocation'
 import { MapCoordinateProvider } from '@/app/contexts/MapCoordinate'
 
@@ -20,18 +20,17 @@ type ReactChildrenNode = {
 }
 
 export default async function RootLayout({ children }: ReactChildrenNode) {
-  const session = await getServerSession();
   return (
     <html lang="en">
       <body className={font.className}>
-        <SessionProvider session={session}>
+        <AuthProvider>
           <UserLocationProvider>
             <MapCoordinateProvider>
               <NavBar />
               {children}
             </MapCoordinateProvider>
           </UserLocationProvider>
-        </SessionProvider>
+        </AuthProvider>
       </body>
     </html >
   )
