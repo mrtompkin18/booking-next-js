@@ -7,7 +7,17 @@ export const authOptions = {
             clientId: process.env.GITHUB_CLIENT_ID!,
             clientSecret: process.env.GITHUB_CLIENT_SECRET!
         })
-    ]
+    ],
+    callbacks: {
+        async signIn({ profile }: any) {
+            console.log("signIn", profile)
+            return true
+        },
+        async session({ session }: any) {
+            console.log("session", session)
+            return session
+        }
+    }
 }
 
 export const handler = NextAuth(authOptions)
